@@ -1,0 +1,65 @@
+{
+  "name": "gitgenius",
+  "version": "1.0.0",
+  "description": "An intelligent and modern .gitignore file generator crafted by penjc.",
+  "main": "index.html",
+  "scripts": {
+    "dev": "npx live-server --port=8080 --open=/"
+  },
+  "keywords": [
+    "gitignore",
+    "generator",
+    "git",
+    "development",
+    "tools",
+    "web-app",
+    "javascript",
+    "css",
+    "html",
+    "frontend"
+  ],
+  "author": {
+    "name": "penjc",
+    "email": "penjc204@gmail.com",
+    "url": "https://pengjiancheng.com"
+  },
+  "license": "MIT",
+  "homepage": "https://penjc.github.io/gitgenius/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/penjc/gitgenius.git"
+  },
+  "bugs": {
+    "url": "https://github.com/penjc/gitgenius/issues"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1",
+    "live-server": "^1.2.2"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead",
+    "not ie 11"
+  ],
+  "files": [
+    "index.html",
+    "style.css",
+    "script.js",
+    "README.md",
+    "PRD.md"
+  ],
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/penjc"
+  },
+  "contributors": [
+    {
+      "name": "penjc",
+      "email": "penjc204@gmail.com"
+    }
+  ]
+} 

@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitGenius - Smart .gitignore Generator</title>
+    <meta name="description" content="An intelligent and modern .gitignore file generator crafted by penjc.">
+
+    <!-- SEO Meta Tags -->
+    <meta name="keywords" content="gitignore, git, generator, devtools, open source, penjc, .gitignore generator, gitignore generator">
+    <meta name="author" content="penjc">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://gitgenius.pengjiancheng.com/">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://gitgenius.pengjiancheng.com/">
+    <meta property="og:title" content="GitGenius - Smart .gitignore Generator">
+    <meta property="og:description" content="An intelligent and modern .gitignore file generator crafted by penjc.">
+    <meta property="og:image" content="https://gitgenius.pengjiancheng.com/favicon.svg">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary">
+    <meta property="twitter:url" content="https://gitgenius.pengjiancheng.com/">
+    <meta property="twitter:title" content="GitGenius - Smart .gitignore Generator">
+    <meta property="twitter:description" content="An intelligent and modern .gitignore file generator crafted by penjc.">
+    <meta property="twitter:image" content="https://gitgenius.pengjiancheng.com/favicon.svg">
+
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script type="module" src="script.js"></script>
+</head>
+<body>
+    <!-- 主容器 -->
+    <div class="app-container">
+        <!-- 头部导航 -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <!-- <img src="favicon.svg" alt="GitGenius Logo" class="logo-icon"> -->
+                    <span class="logo-text">GitGenius</span>
+                </div>
+                <nav class="nav">
+                    <div class="nav-controls">
+                        <!-- 语言切换 -->
+                        <button class="lang-toggle" id="langToggle" title="Switch Language">
+                            <span class="lang-text">EN</span>
+                            <span class="lang-text">中</span>
+                        </button>
+                        
+                        <!-- 主题切换 -->
+                        <button class="theme-toggle" id="themeToggle" title="Toggle Theme">
+                            <svg id="theme-icon-sun" class="theme-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="5"></circle>
+                                <line x1="12" y1="1" x2="12" y2="3"></line>
+                                <line x1="12" y1="21" x2="12" y2="23"></line>
+                                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                                <line x1="1" y1="12" x2="3" y2="12"></line>
+                                <line x1="21" y1="12" x2="23" y2="12"></line>
+                                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                            </svg>
+                            <svg id="theme-icon-moon" class="theme-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                            </svg>
+                        </button>
+
+                        <!-- GitHub Link -->
+                        <a href="https://github.com/penjc/gitgenius" target="_blank" rel="noopener noreferrer" class="github-link" title="penjc/gitgenius on GitHub">
+                            <i class="fab fa-github"></i>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </header>
+
+        <!-- 主要内容区域 -->
+        <main class="main-content">
+            <!-- 侧边栏 -->
+            <aside class="sidebar">
+                <div class="sidebar-header">
+                    <h2 data-i18n="sidebar.title">选择技术栈</h2>
+                    <div class="search-container">
+                        <input type="text" id="searchInput" placeholder="搜索技术..." data-i18n-placeholder="sidebar.search">
+                        <i class="fas fa-search search-icon"></i>
+                        <button class="search-clear" id="searchClear">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 选中的技术栈 -->
+                <div class="selected-stack" id="selectedStack">
+                    <div class="selected-header">
+                        <span data-i18n="sidebar.selected">已选择</span>
+                        <button class="clear-all hidden" id="clearAll" data-i18n="sidebar.clear">清空</button>
+                    </div>
+                    <div class="selected-items" id="selectedItems"></div>
+                </div>
+
+                <!-- 技术栈分类 -->
+                <div class="stack-categories">
+                    <!-- 编程语言 -->
+                    <div class="category">
+                        <div class="category-header" data-category="languages">
+                            <i class="fas fa-code"></i>
+                            <span data-i18n="categories.languages">编程语言</span>
+                            <i class="fas fa-chevron-down toggle-icon"></i>
+                        </div>
+                        <div class="category-content">
+                            <div class="stack-grid" id="languages"></div>
+                        </div>
+                    </div>
+
+                    <!-- 前端框架 -->
+                    <div class="category">
+                        <div class="category-header" data-category="frontend">
+                            <i class="fas fa-palette"></i>
+                            <span data-i18n="categories.frontend">前端框架</span>
+                            <i class="fas fa-chevron-down toggle-icon"></i>
+                        </div>
+                        <div class="category-content">
+                            <div class="stack-grid" id="frontend"></div>
+                        </div>
+                    </div>
+
+                    <!-- 后端框架 -->
+                    <div class="category">
+                        <div class="category-header" data-category="backend">
+                            <i class="fas fa-server"></i>
+                            <span data-i18n="categories.backend">后端框架</span>
+                            <i class="fas fa-chevron-down toggle-icon"></i>
+                        </div>
+                        <div class="category-content">
+                            <div class="stack-grid" id="backend"></div>
+                        </div>
+                    </div>
+
+                    <!-- 移动开发 -->
+                    <div class="category">
+                        <div class="category-header" data-category="mobile">
+                            <i class="fas fa-mobile-alt"></i>
+                            <span data-i18n="categories.mobile">移动开发</span>
+                            <i class="fas fa-chevron-down toggle-icon"></i>
+                        </div>
+                        <div class="category-content">
+                            <div class="stack-grid" id="mobile"></div>
+                        </div>
+                    </div>
+
+                    <!-- 数据库 -->
+                    <div class="category">
+                        <div class="category-header" data-category="database">
+                            <i class="fas fa-database"></i>
+                            <span data-i18n="categories.database">数据库</span>
+                            <i class="fas fa-chevron-down toggle-icon"></i>
+                        </div>
+                        <div class="category-content">
+                            <div class="stack-grid" id="database"></div>
+                        </div>
+                    </div>
+
+                    <!-- 操作系统 -->
+                    <div class="category">
+                        <div class="category-header" data-category="os">
+                            <i class="fas fa-desktop"></i>
+                            <span data-i18n="categories.os">操作系统</span>
+                            <i class="fas fa-chevron-down toggle-icon"></i>
+                        </div>
+                        <div class="category-content">
+                            <div class="stack-grid" id="os"></div>
+                        </div>
+                    </div>
+
+                    <!-- IDE/编辑器 -->
+                    <div class="category">
+                        <div class="category-header" data-category="ide">
+                            <i class="fas fa-edit"></i>
+                            <span data-i18n="categories.ide">IDE/编辑器</span>
+                            <i class="fas fa-chevron-down toggle-icon"></i>
+                        </div>
+                        <div class="category-content">
+                            <div class="stack-grid" id="ide"></div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- 主编辑区域 -->
+            <div class="editor-container">
+                <!-- 编辑器工具栏 -->
+                <div class="editor-toolbar">
+                    <div class="toolbar-left">
+                        <div class="file-info">
+                            <i class="fas fa-file-code"></i>
+                            <span>.gitignore</span>
+                        </div>
+                        <div class="line-count" id="lineCount">1 行</div>
+                    </div>
+                    <div class="toolbar-right">
+                        <button class="toolbar-btn" id="clearBtn" title="清空">
+                            <i class="fas fa-trash"></i>
+                            <span data-i18n="actions.clear">清空</span>
+                        </button>
+                        <button class="toolbar-btn" id="copyBtn" title="复制">
+                            <i class="fas fa-copy"></i>
+                            <span data-i18n="actions.copy">复制</span>
+                        </button>
+                        <button class="toolbar-btn" id="downloadBtn" title="下载">
+                            <i class="fas fa-download"></i>
+                            <span data-i18n="actions.download">下载</span>
+                        </button>
+                        <button class="toolbar-btn" id="shareBtn" title="分享">
+                            <i class="fas fa-share-alt"></i>
+                            <span data-i18n="actions.share">分享</span>
+                        </button>
+                        <div class="toolbar-divider"></div>
+                        <button class="toolbar-btn" id="templateBtn" title="模板">
+                            <i class="fas fa-bookmark"></i>
+                            <span data-i18n="toolbar.template">模板</span>
+                        </button>
+                        <button class="toolbar-btn" id="historyBtn" title="历史记录">
+                            <i class="fas fa-history"></i>
+                            <span data-i18n="toolbar.history">历史</span>
+                        </button>
+                        <button class="toolbar-btn" id="previewBtn" title="预览">
+                            <i class="fas fa-eye"></i>
+                            <span data-i18n="toolbar.preview">预览</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 编辑器 -->
+                <div class="editor-wrapper">
+                    <div class="line-numbers" id="lineNumbers">1</div>
+                    <textarea 
+                        class="editor" 
+                        id="editor" 
+                        placeholder="# 选择技术栈生成 .gitignore 文件，或者直接在这里编辑..."
+                        data-i18n-placeholder="editor.placeholder"
+                        spellcheck="false"
+                    ></textarea>
+                </div>
+            </div>
+        </main>
+
+        <!-- 底部信息 -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-left">
+                    <span>©2025 Designed by <a href="https://github.com/penjc" target="_blank" class="footer-link">penjc</a></span>
+                </div>
+                <div class="footer-right">
+                    <a href="https://beian.mps.gov.cn/#/query/webSearch?code=31011502403067" target="_blank" class="beian-link">
+                        <img src="gawb.webp" alt="公安网备" class="beian-icon">
+                        <span>沪公网安备31011502403067号</span>
+                    </a>
+                    <a href="https://beian.miit.gov.cn" target="_blank" class="beian-link">
+                        <span>沪ICP备202511262号</span>
+                    </a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- 模态框 -->
+    <!-- 模板模态框 -->
+    <div class="modal" id="templateModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 data-i18n="modal.template.title">项目模板</h3>
+                <button class="close-btn" data-modal="templateModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="template-grid" id="templateGrid"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 历史记录模态框 -->
+    <div class="modal" id="historyModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 data-i18n="modal.history.title">历史记录</h3>
+                <button class="close-btn" data-modal="historyModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="history-list" id="historyList"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 预览模态框 -->
+    <div class="modal" id="previewModal">
+        <div class="modal-content large">
+            <div class="modal-header">
+                <h3 data-i18n="modal.preview.title">预览</h3>
+                <button class="close-btn" data-modal="previewModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="preview-content" id="previewContent"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 分享模态框 -->
+    <div class="modal" id="shareModal">  
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 data-i18n="modal.share.title">分享配置</h3>
+                <button class="close-btn" data-modal="shareModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="share-options">
+                    <div class="share-option">
+                        <label data-i18n="modal.share.url">分享链接:</label>
+                        <div class="share-input-group">
+                            <input type="text" id="shareUrl" readonly>
+                            <button class="copy-share-btn" id="copyShareBtn">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 提示消息 -->
+    <div class="toast" id="toast">
+        <div class="toast-content">
+            <i class="toast-icon"></i>
+            <span class="toast-message"></span>
+        </div>
+    </div>
+
+    <!-- 隐藏的文件输入 -->
+    <input type="file" id="hiddenFileInput" accept=".gitignore,.txt" style="display: none;">
+</body>
+</html> 
