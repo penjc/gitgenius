@@ -1303,3 +1303,8 @@ input:focus-visible {
   color: var(--primary-color);
   transform: scale(1.1);
 } 
+
+/* 通用样式 */
+.hidden {
+  display: none !important;
+} 

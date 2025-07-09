@@ -307,6 +307,7 @@ export class GitIgnoreGenerator {
 
   bindActionEvents() {
     document.getElementById('clearBtn')?.addEventListener('click', () => {
+      this.clearSelection();
       this.clearEditor();
     });
 
@@ -403,6 +404,7 @@ export class GitIgnoreGenerator {
 
   updateSelectedItems() {
     const container = document.getElementById('selectedItems');
+    const clearAllBtn = document.getElementById('clearAll');
     if (!container) return;
 
     // 获取当前已有的项
@@ -454,6 +456,15 @@ export class GitIgnoreGenerator {
     existingItems.forEach(item => {
       item.remove();
     });
+
+    // 控制左侧红色清空按钮的显示/隐藏
+    if (clearAllBtn) {
+      if (this.selectedStack.size > 0) {
+        clearAllBtn.classList.remove('hidden');
+      } else {
+        clearAllBtn.classList.add('hidden');
+      }
+    }
   }
 
   clearSelection() {
